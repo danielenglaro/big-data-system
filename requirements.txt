@@ -1,0 +1,12 @@
+# Dipendenze del progetto Big Data — genere musicale con Spark.
+# Versioni "pinnate" dove serve stabilita; le altre lasciano libero pip
+# di risolvere una versione compatibile con l'ambiente.
+
+pyspark==3.5.1        # Apache Spark + MLlib (calcolo distribuito e modelli)
+datasets              # download del dataset da Hugging Face
+pymongo               # client MongoDB per salvare i risultati aggregati
+streamlit             # dashboard web
+pandas                # ponte HF->Spark e manipolazione dei risultati
+matplotlib            # grafici (dashboard / notebook)
+seaborn               # heatmap della confusion matrix
+python-dotenv         # caricamento delle variabili da .env

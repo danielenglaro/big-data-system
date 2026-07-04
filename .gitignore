@@ -1,0 +1,31 @@
+# NB: in .gitignore i commenti valgono SOLO se la '#' e' a inizio riga.
+# I commenti "inline" (dopo il pattern) NON funzionano: diventano parte del pattern.
+
+# --- Dati e credenziali: NON devono mai finire nella repo ---
+# il dataset e' pesante e resta locale...
+data/*
+# ...ma teniamo la cartella nella repo tramite il segnaposto
+!data/.gitkeep
+# credenziali (MONGO_URI, ecc.)
+.env
+
+# --- Ambiente Python ---
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# --- Artefatti Spark / MLlib ---
+spark-warehouse/
+# modelli MLlib salvati su disco
+*.model/
+metastore_db/
+derby.log
+
+# --- Notebook ---
+.ipynb_checkpoints/
+
+# --- Sistema / IDE ---
+.DS_Store
+.idea/
+.vscode/
