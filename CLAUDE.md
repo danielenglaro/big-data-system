@@ -32,3 +32,31 @@ valutazione → salvataggio su MongoDB → dashboard.
 file (CSV/JSON) → DataFrame Spark → dizionari Python → documenti Mongo (BSON)
    (solo input)     (elaborazione)     (il "ponte")        (storage, automatico)
 ```
+
+## Ambiente locale (macOS di Daniele) — già configurato e verificato
+- **Python**: 3.11.15 installato via Homebrew (`/opt/homebrew/opt/python@3.11`).
+  Il sistema ha anche 3.13/3.14, che NON vanno usati con Spark 3.5.1.
+- **venv**: `./venv` (creato con il 3.11). Attivare sempre prima di lavorare:
+  `source venv/bin/activate`.
+- **Java**: OpenJDK 17 via Homebrew. Serve `export JAVA_HOME=/opt/homebrew/opt/openjdk@17`
+  (non è permanente finché non lo si aggiunge a `~/.zshrc`).
+- **MongoDB**: Atlas (cluster condiviso del gruppo). La `MONGO_URI` sta nel `.env` locale.
+
+### Come eseguire la pipeline
+```bash
+source venv/bin/activate
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17   # se non è in ~/.zshrc
+python main.py
+```
+
+## Tranelli già risolti (NON reintrodurre)
+- **`.gitignore`**: i commenti valgono SOLO a inizio riga. NIENTE commenti inline
+  dopo un pattern (`.env  # ...`) → git li tratta come parte del pattern e NON
+  ignora il file. È così che stava per essere committato il `.env`.
+- **`PYSPARK_PYTHON`**: `src/spark_session.py` imposta `PYSPARK_PYTHON` e
+  `PYSPARK_DRIVER_PYTHON` su `sys.executable`. Senza, i worker Spark usano il
+  Python di sistema (3.14) e crashano con `PYTHON_VERSION_MISMATCH`. Va sempre
+  attivato il venv così driver e worker usano lo stesso interprete.
+- **pandas 3.0 / numpy 2.x**: sono stati installati versioni molto recenti; la
+  conversione pandas→Spark in `ingestion.py` funziona, ma se emergono attriti
+  qui è il primo posto dove guardare.
